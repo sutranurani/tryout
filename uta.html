@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+ <script>
+        
+        const body = document.querySelector("body");
+        const h1 = document.createElement("hi");
+
+        h1.innerText = "Hallo Dunia";
+        body.appendChild(h1);
+
+        const Mie = ['Indomie','Mie Sukses','Mie Sedap','Lemonilo','Mie Ayam'];
+        const warna = ['red','blue','green','yellow','brown']
+
+        for(const data in Mie) {
+            const ul = document.createElement("ul");
+            const li = document.createElement("li");
+            li.style.background = warna[data]
+            li.innerText = Mie[data];
+            ul.appendChild(li);
+            body.appendChild(ul);
+        }
+
+        setTimeout(function(){
+            console.log('Hallo Manusia')
+        },1000)
+            body.innerHTML= "   "
+            let waktu = 0 ;
+            const batasWaktu = 1000
+            const waktuMaju = setInterval(function(){
+            const ul=document.createElement("ul");
+            const li=document.createElement("li");
+            li.style.background = warna[waktu];
+            li.innerText = Mie[waktu];
+            ul.appendChild(li);
+            body.appendChild(ul);
+            waktu++
+            console.log('Sisa Waktu Hidup: ', waktu)
+            if(waktu==5){
+                console.log('Saat nya kamu meninggal!!')
+                clearInterval(waktuMaju)
+            }
+        },batasWaktu)
+    </script>
+
+</body>
+</html>

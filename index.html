@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com/"></script>
+    <title>Document</title>
+</head>
+<style>
+    *{
+        font-family: 'Edu SA Beginner', cursive;
+    }
+</style>
+<body class="bg-sky-500">
+    <div>
+        <form class="flex flex-col w-1/2 mx-auto my-[200px] gap-2" action="">
+            <h1 class="text-2x1">FORM LOGIN TRYOUT APP</h1>
+            <input class="p-2 rounded-md" type="text" placeholder="Username">
+            <input class="p-2 rounded-md" type="Password" name="" id="" placeholder="Password">
+            <button class="bg-white text-sky-500 p-2 rounded-md hover:bg-sky-700 hover:text-white hover:shadow-md">
+                <a href="Soal.html">
+                    Login 
+                </a>
+            </button >
+        </form>
+    </div>
+<script>
+    // 1. Tangkap data yang di input user
+    const username = document.querySelector('.username').value
+    const Password = document.querySelector('.password').value
+    const btn = document.querySelector('button')
+
+    // 2. Pengkondisian di lakuin saat user senekan tombol login
+    let x = 0
+btn.addEventListener('click', function(e){
+      e.preventDefault()}
+      // 3. Kalau benar, arahkan user ke halaman soal , kalau salah cegah user!
+      if(username.value =='kitakale'){
+        if(Password.value == 'imakom'){
+          alert('login kamu berhasil!')
+          location.href = "soalhtml   
+        }
+      }
+
+    for
+
+</script>    
+</body>
+
+</html>

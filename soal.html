@@ -1,0 +1,270 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+<style>
+    * {
+        font-family: 'Roboto', sans-serif;
+    }
+</style>
+</head>
+
+<body class="bg-blue-200">
+
+    <p class="p-2 rounded-md text-sky-600 bg-white w-fit relative top-2 left-2">
+        Waktu Tersisa: <span class="timer"></span>
+      </p>
+
+  <!-- Form Pengisian Soal -->
+  <form
+    class="mx-auto w-2/3 text-center mt-[100px] items-center flex flex-col gap-4"
+  >
+    <h1 class="bg-white w-fit p-3 rounded-md" id="soal"></h1>
+    <div class="box-jawaban flex flex-col items-start gap-4 w-2/3">
+      <div
+        class="jawaban p-2 rounded-md flex justify-between bg-white w-full"
+      >
+        <label for="_a" id="label_a"></label>
+        <input
+          class="default:ring-2 checked:w-5 bg-white active:border-yellow-500"
+          type="radio"
+          name="jwb"
+          id="_a"
+        />
+      </div>
+      <div
+        class="jawaban p-2 rounded-md flex justify-between bg-white w-full"
+      >
+        <label for="_b" id="label_b"></label>
+        <input class="checked:w-5" type="radio" name="jwb" id="_b" />
+      </div>
+      <div
+        class="jawaban p-2 rounded-md flex justify-between bg-white w-full"
+      >
+        <label for="_c" id="label_c"></label>
+        <input type="radio" class="checked:w-5" name="jwb" id="_c" />
+      </div>
+      <div
+        class="jawaban p-2 rounded-md flex justify-between bg-white w-full"
+      >
+        <label for="_d" id="label_d"></label>
+        <input class="checked:w-5" type="radio" name="jwb" id="_d" />
+      </div>
+    </div>
+    <button
+      class="bg-sky-600 w-2/3 py-1 text-white rounded-md hover:bg-sky-700 hover:shadow-md"
+      type="submit"
+    >
+      Pilih
+    </button>
+  </form>
+
+    <!-- Score -->
+    <div
+    id="boxScore"
+    class="hidden scoreBox flex flex-col gap-4 text-center bg-white rounded-md w-1/3 mx-auto h-fit p-4 mt-[200px]"
+  >
+    <h1 class="text-sky-500 text-2xl">Score kamu adalah</h1>
+    <h1
+      id="score"
+      class="mx-auto text-3xl bg-sky-500 text-white font-bold w-fit p-2 rounded-md my-2"
+    ></h1>
+    <h1
+      id="keteranganScore"
+      class="mx-auto text-sky-500 font-bold w-fit p-4"
+    ></h1>
+  </div>
+  <!-- End Score -->
+
+
+<script>
+
+// Tangkap Element 
+const timer = document.querySelector(".timer");
+const soal = document.querySelector(".soal");
+const jawaban = document.querySelectorAll(".jawaban");
+const form = document.querySelector(".form");
+const boxScoreElement = document.querySelector("#boxScore");
+const scoreElement = document.querySelector("#score");
+const keteranganScore = document.querySelector("#keteranganScore")
+
+let score = 0;
+let currIndex = 0;
+
+
+// Box Soal
+const boxSoal = [
+    {
+        Soal: "1 + 1 = ...",
+        Jawaban: [
+            "1",
+            "2",
+            "3",
+            "4",
+        ],
+        jawabanBenar: 1
+    },
+    {
+        Soal: "2 + 3 = ...",
+        Jawaban: [
+            "2",
+            "5",
+            "8",
+            "9",
+        ],
+        jawabanBenar: 1
+    },
+    {
+        Soal: "1+2+3+4+5+6+7+8+9 = ...",
+        Jawaban: [
+            "123456789",
+            "100",
+            "55",
+            "45",
+        ],
+        jawabanBenar: 3
+    },
+    {
+        Soal: "10 - 11 = ...",
+        Jawaban: [
+            "-2",
+            "-1",
+            "-3",
+            "0",
+        ],
+        jawabanBenar: 1
+    },
+    {
+        Soal: "10 * 10 = ...",
+        Jawaban: [
+            "110",
+            "50",
+            "20",
+            "100",
+        ],
+        jawabanBenar: 3
+    },
+    {
+        Soal: "1 + 1 = ...",
+        Jawaban: [
+            "Jendela",
+            "11",
+            "2",
+            "111",
+        ],
+        jawabanBenar: 2
+    },
+    {
+        Soal: "1 + 3 = ...",
+        Jawaban: [
+            "4",
+            "2",
+            "3",
+            "5",
+        ],
+        jawabanBenar: 0
+    },
+    {
+        Soal: "1 + 9 = ...",
+        Jawaban: [
+            "10",
+            "2",
+            "3",
+            "4",
+        ],
+        jawabanBenar: 0
+    },
+    {
+        Soal: "1 + 11 = ...",
+        Jawaban: [
+            "111",
+            "12",
+            "312",
+            "42",
+        ],
+        jawabanBenar: 1
+    },
+    {
+        Soal: "Aku + Kamu = ...",
+        Jawaban: [
+            "PRENJON",
+            "SKIP",
+            "HALU DEK",
+            "NT",
+        ],
+        jawabanBenar: 3
+    },
+]
+    
+// Time
+let time = 15;
+const timeout = setInterval(()=>{
+    if (time == 0){
+        clearInterval(timeout);
+
+        // hilangkan tampilan display
+        form.style.display = "none";
+        timer.style.display = "none";
+        timer.parentElement.style.display = "none";
+
+        // tampiln score
+        boxScoreElement.classList.remove("hidden");
+        scoreElement.textContent = `${score = 10}`;
+        keteranganScore.textContent = `Benar : ${score} |
+        Total Soal: ${boxSoal.length}`;
+    }
+    timer.textContent = time;
+    time--;
+}, 1000);
+
+// Load soal
+const loadSoal = () =>{
+
+  if (currIndex < boxSoal.length) {
+    let currSoal = boxSoal[currIndex];
+
+    this.soal.innerText = currSoal.soal;
+
+    for(const jwb in currSoal.jawaban) {
+      jawaban[jwb].children[0].innerText = "";
+      jawaban[jwb].children[1].value = "";
+
+      jawaban[jwb].children[0].innerText = currSoal.jawaban[jwb];
+      jawaban[jwb].children[1].value = jwb;
+    }
+  } else {
+    form.style.display = "none";
+    timer.style.display = "none";
+    timer.parentElement.style.display = "none";
+    boxScoreElement.classList.remove("hidden");
+    clearInterval(timeout);
+    scoreElement.textContent = '${score = 10}';
+    keteranganScore.textContent = 'Benar : ${score} | Total Soal: ${boxSoal.lenght}';
+  }
+
+  jawaban.forEach ((jwb) => {
+    jwb.children[1].checked = false;
+  })
+
+  const onSubmit = (e) => {
+    e.preventDefault()
+  }
+
+  loadSoal();
+};
+
+
+
+
+
+    </script>
+
+</body>
+</html>
